@@ -54,7 +54,7 @@ public class CustomerDAO {
 
     public Customer updateCustomer(Customer customer){
         //TODO: Update this query to match with the customer object.
-        String query = "UPDATE customers set title = ? where id = ?";
+        String query = "UPDATE customers set fname = ?, lname = ?, username = ?, email =? where id = ?";
         this.jdbcTemplate.update(query, customer.getId(), customer.getFName(), customer.getLName(),
                 customer.getUsername(), customer.getEmail());
         return customer;

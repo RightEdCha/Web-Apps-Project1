@@ -1,15 +1,25 @@
 package com.store.dao;
 
+import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
 import com.store.model.*;
 import java.util.Collection;
 import java.util.ArrayList;
 
+@Repository
 public class CustomerDAO {
-    private JdbcTemplate jdbcTemplate;
 
-    public CustomerDAO(JdbcTemplate jdbcTemp) {
-        this.jdbcTemplate = jdbcTemp;
+    private JdbcTemplate jdbcTemplate;
+    private static final String driverClassName = "com.mysql.jdbc.Driver";
+    private static final String url = "jdbc:mysql://localhost:3306/db_store";
+    private static final String dbUsername ="springuser";
+    private static final String dbPassword ="ThePassword";
+
+    public CustomerDAO() {
+        this.jdbcTemplate = new JdbcTemplate(this.getDataSource());
     }
 
     public Customer createCustomer(Customer customer){
@@ -23,7 +33,7 @@ public class CustomerDAO {
     public Customer getCustomer(int id){
         Customer customer = new Customer(id, "", "", "", "");
         //TODO: Run a test on these functions.
-        CustomerDAO customerDAO = new CustomerDAO(jdbcTemplate);
+        CustomerDAO customerDAO = new CustomerDAO();
         //Get customer and set tracks using getProductsByCustomerId(id) in TracksDAO
         String query = "SELECT * FROM customers WHERE ID = ?";
         this.jdbcTemplate.queryForObject(query, new Object[] {id},
@@ -63,9 +73,19 @@ public class CustomerDAO {
     public boolean deleteCustomer(Customer customer){
         //TODO: Update this query to match with the customer object.
         String query = "DELETE from customers where id =?";
-        boolean deleteSuccess = this.jdbcTemplate.update(query customer.getId(), customer.getFName(), customer.getLName(),
+        boolean deleteSuccess = this.jdbcTemplate.update(query, customer.getId(), customer.getFName(), customer.getLName(),
                 customer.getUsername(), customer.getEmail()) > 0;
         return deleteSuccess;
+    }
+
+    public DriverManagerDataSource getDataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(driverClassName);
+        dataSource.setUsername(dbUsername);
+        dataSource.setPassword(dbPassword);
+        dataSource.setUrl(url);
+
+        return dataSource;
     }
 }
 

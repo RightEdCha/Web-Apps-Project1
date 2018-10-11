@@ -1,15 +1,23 @@
 package com.store.dao;
 
+import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
 import com.store.model.*;
 import java.util.Collection;
 import java.util.ArrayList;
 
 public class ProductDAO {
     private JdbcTemplate jdbcTemplate;
+    private static final String driverClassName = "com.mysql.jdbc.Driver";
+    private static final String url = "jdbc:mysql://localhost:3306/db_store";
+    private static final String dbUsername ="springuser";
+    private static final String dbPassword ="ThePassword";
 
-    public ProductDAO(JdbcTemplate jdbcTemp) {
-        this.jdbcTemplate = jdbcTemp;
+    public ProductDAO() {
+        this.jdbcTemplate = new JdbcTemplate(this.getDataSource());
     }
 
     public Product createProduct(Product product){
@@ -26,7 +34,7 @@ public class ProductDAO {
         Product product = new Product(itemId, "", 0,0,0,"","","","","");
         //TODO:
         String query = "SELECT * FROM products WHERE itemId = ?";
-        ProductDAO trackDAO = new ProductDAO(jdbcTemplate);
+        ProductDAO productDAO = new ProductDAO();
         //Get product and set tracks using getTracksByproductId(id) in TracksDAO
         this.jdbcTemplate.queryForObject(query, new Object[] {itemId},
                 (rs, rowNum) -> new Product(rs.getInt("itemId"),
@@ -69,9 +77,20 @@ public class ProductDAO {
         return product;
     }
 
-    public boolean deleteProduct(Product product){
+    public boolean deleteProduct(Product product) {
         //TODO:
         String query = "DELETE from products where itemId =?";
         boolean deleteSuccess = this.jdbcTemplate.update(query, product.getItemId()) > 0;
         return deleteSuccess;
+    }
+
+    public DriverManagerDataSource getDataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(driverClassName);
+        dataSource.setUsername(dbUsername);
+        dataSource.setPassword(dbPassword);
+        dataSource.setUrl(url);
+
+        return dataSource;
+    }
 }

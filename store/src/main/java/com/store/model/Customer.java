@@ -1,23 +1,13 @@
 package com.store.model;
 
 public class Customer {
-    private int id;
     private String fname, lname, username, email;
 
-    public Customer(int id, String fname, String lname, String username, String email) {
-        this.id = id;
+    public Customer(String fname, String lname, String username, String email) {
         this.fname = fname;
         this.lname = lname;
         this.username = username;
         this.email = email;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getFName() {
@@ -52,7 +42,7 @@ public class Customer {
     public String toString() {
 
         return String.format(
-                "Customer[id=%d, fname='%s', lname='%s', username='%s', email='%s']",
-                id, fname, lname, username, email);
+                "Customer{ \"fname\":\"%s\", \"lname\":\"%s\", \"username\":\"%s\", \"email\":\"%s\" }",
+                fname, lname, username, email);
     }
 }

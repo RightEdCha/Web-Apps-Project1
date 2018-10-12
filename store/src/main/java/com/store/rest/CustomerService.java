@@ -1,10 +1,6 @@
 package com.store.rest;
 
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.Collection;
 import java.util.ArrayList;
@@ -16,22 +12,37 @@ import com.store.model.*;
 @Service
 public class CustomerService {
 
-    JdbcTemplate jdbcTemplate;
-    //@Autowired
     private CustomerDAO customerDAO = new CustomerDAO();
 
-    public String getMsg(String msg)  {
-        return "test : " + msg;
+    public Collection<Customer> getAllCustomers() {
+        Collection<Customer> customers = customerDAO.getAllCustomers();
+
+        return customers;
     }
 
-    public String getAllCustomers() {
-        String retString = "";
-        Collection<Customer> customers = customerDAO.getAllCustomers();
-        for (Customer customer: customers) {
-            retString += customer.toString();
-        }
+    public Customer getCustomer(String username){
 
-        return retString;
+        return customerDAO.getCustomer(username);
+    }
+
+    public Customer createCustomer(Customer customer) {
+
+        return customerDAO.createCustomer(customer);
+    }
+
+    public Customer updateCustomer(Customer customer) {
+
+        return customerDAO.updateCustomer(customer);
+    }
+
+    public String deleteCustomer(String username) {
+        String retString = "";
+        boolean success = customerDAO.deleteCustomer(username);
+
+        if (success == true)
+            return retString;
+
+        return "failure";
     }
 }
 

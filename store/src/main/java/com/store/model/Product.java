@@ -103,7 +103,7 @@ public class Product {
     public String toString() {
 
         return String.format(
-                "product[itemId=%d, name='%s', msrp='%1.2f', salePrice='%1.2f', upc='%d', shortDescription='%s', brandName='%s', size='%s', color='%s', gender='%s']",
+                "{\"itemId\"=\"%d\", \"name\"=\"%s\", \"msrp\"=\"%1.2f\", \"salePrice\"=\"%1.2f\", \"upc\"=\"%d\", \"shortDescription\"=\"%s\", \"brandName\"=\"%s\", \"size\"=\"%s\", \"color\"=\"%s\", \"gender\"=\"%s\"}",
                 itemId, name, msrp, salePrice, upc, shortDescription, brandName, size, color, gender);
     }
 }

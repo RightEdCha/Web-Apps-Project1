@@ -2,16 +2,13 @@ package com.store.rest;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.*;
+
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import org.springframework.stereotype.Controller;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.Produces;
 import java.util.Collection;
 import java.util.ArrayList;
 
@@ -35,16 +32,47 @@ public class CustomerController extends HttpServlet {
     }
 
     @GET
-    @Path("/hello/{param}")
-    public Response getMsg(@PathParam("param") String msg) {
-        String output = customerService.getMsg(msg);
+    @Produces(MediaType.APPLICATION_JSON_VALUE)
+    public  Collection<Customer> getAllCustomers() {
+        Collection<Customer> customers = customerService.getAllCustomers();
 
-        return Response.status(200).entity(output).build();
+        return customers;
     }
 
     @GET
-    @Produces("text/plain")
-    public String getAllCustomers() {
-        return customerService.getAllCustomers();
+    @Path("/{username}")
+    @Produces(MediaType.APPLICATION_JSON_VALUE)
+    public Customer getMsg(@PathParam("username") String username) {
+        Customer output = customerService.getCustomer(username);
+
+        return output;
     }
+
+    @POST //create
+    public Customer postMsg(@QueryParam("username") String username, @QueryParam("fname") String fname,
+                           @QueryParam("lname") String lname, @QueryParam("email") String email) {
+
+        Customer customer = new Customer(fname,lname,username,email);
+        Customer output = customerService.createCustomer(customer);
+
+        return output;
+    }
+
+    @PUT //Update
+    public Customer putMsg(@QueryParam("username") String username, @QueryParam("fname") String fname,
+                           @QueryParam("lname") String lname, @QueryParam("email") String email) {
+
+        Customer customer = new Customer(fname,lname,username,email);
+
+        return customerService.updateCustomer(customer);
+    }
+
+    @DELETE
+    @Path("/{username}")
+    public Response deleteMsg(@PathParam("username") String username){
+
+        String output = customerService.deleteCustomer(username);
+        return Response.status(200).entity(output).build();
+    }
+
 }

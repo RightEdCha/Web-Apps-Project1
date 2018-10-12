@@ -24,20 +24,18 @@ public class CustomerDAO {
 
     public Customer createCustomer(Customer customer){
         //TODO: Run a test on these functions.
-        String query = "INSERT into customers(id, fname, lname, username, email) values(?,?,?,?,?)";
-        this.jdbcTemplate.update(query, customer.getId(), customer.getFName(), customer.getLName(),
+
+        String query = "INSERT into customers(fname, lname, username, email) values(?,?,?,?)";
+        this.jdbcTemplate.update(query, customer.getFName(), customer.getLName(),
                 customer.getUsername(), customer.getEmail());
         return customer;
     }
 
-    public Customer getCustomer(int id){
-        Customer customer = new Customer(id, "", "", "", "");
+    public Customer getCustomer(String username){
         //TODO: Run a test on these functions.
-        CustomerDAO customerDAO = new CustomerDAO();
-        //Get customer and set tracks using getProductsByCustomerId(id) in TracksDAO
-        String query = "SELECT * FROM customers WHERE ID = ?";
-        this.jdbcTemplate.queryForObject(query, new Object[] {id},
-                (rs, rowNum) -> new Customer(rs.getInt("id"),
+        String query = "SELECT * FROM customers WHERE username = ?";
+        Customer customer = this.jdbcTemplate.queryForObject(query, new Object[] {username},
+                (rs, rowNum) -> new Customer(
                 rs.getString("fname"),
                 rs.getString("lname"),
                 rs.getString("username"),
@@ -53,7 +51,7 @@ public class CustomerDAO {
         String query = "SELECT * FROM customers";
         this.jdbcTemplate.query(
                 query, new Object[] { },
-                (rs, rowNum) -> new Customer(rs.getInt("id"),
+                (rs, rowNum) -> new Customer(
                 rs.getString("fname"),
                 rs.getString("lname"),
                 rs.getString("username"),
@@ -64,17 +62,16 @@ public class CustomerDAO {
 
     public Customer updateCustomer(Customer customer){
         //TODO: Update this query to match with the customer object.
-        String query = "UPDATE customers set fname = ?, lname = ?, username = ?, email =? where id = ?";
-        this.jdbcTemplate.update(query, customer.getId(), customer.getFName(), customer.getLName(),
-                customer.getUsername(), customer.getEmail());
+        String query = "UPDATE customers set fname = ?, lname = ?, email = ? where username = ?";
+        this.jdbcTemplate.update(query, customer.getFName(), customer.getLName(),
+                customer.getEmail(), customer.getUsername());
         return customer;
     }
 
-    public boolean deleteCustomer(Customer customer){
+    public boolean deleteCustomer(String username){
         //TODO: Update this query to match with the customer object.
-        String query = "DELETE from customers where id =?";
-        boolean deleteSuccess = this.jdbcTemplate.update(query, customer.getId(), customer.getFName(), customer.getLName(),
-                customer.getUsername(), customer.getEmail()) > 0;
+        String query = "DELETE from customers where username =?";
+        boolean deleteSuccess = this.jdbcTemplate.update(query, username) > 0;
         return deleteSuccess;
     }
 

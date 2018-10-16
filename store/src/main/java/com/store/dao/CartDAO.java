@@ -82,9 +82,9 @@ public class CartDAO {
     }
 
     public Collection<String> getWhoPurchased(int productId){
-        String query ="SELECT cartusers.customerUsername FROM cartusers INNER JOIN cartitems ON cartusers.cartId=cartitems.cartId where cartitems.productId=?";
+        String query ="SELECT cartusers.customerUsername FROM cartusers INNER JOIN cartitems ON cartusers.cartId=cartitems.cartId where cartitems.productId=? AND purchased=?";
         Collection<String> usernames = new ArrayList<String>();
-        this.jdbcTemplate.query(query, new Object[]{productId},
+        this.jdbcTemplate.query(query, new Object[]{productId, true},
                 (rs, rowNum) -> new String(rs.getString("cartusers.customerUsername"))).forEach(username -> usernames.add(username));
         return usernames;
     }

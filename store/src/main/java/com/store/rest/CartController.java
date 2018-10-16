@@ -3,7 +3,6 @@ package com.store.rest;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.*;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import org.springframework.stereotype.Controller;
 import org.springframework.http.MediaType;
@@ -54,8 +53,12 @@ public class CartController extends HttpServlet {
     public void purchaseMsg(@PathParam("cartId") int cartId) {
         cartService.purchaseCart(cartId);
     }
+
     @GET
-    public Collection<String> getWhoPurchased(@QueryParam("productId") int productId){
+    @Path("/{productId}")       //When i tried this as a query param, the program complained and none of the other functions worked.
+    @Produces(MediaType.APPLICATION_JSON_VALUE)
+    public Collection<String> getWhoPurchased(@PathParam("productId") int productId){
         return cartService.getWhoPurchased(productId);
     }
+
 }

@@ -39,16 +39,17 @@ public class ProductController extends HttpServlet {
     }
 
     @GET
-    @Path("/{username}")
+    @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON_VALUE)
-    public Product getMsg(@PathParam("username") String username) {
-        Product output = productService.getProduct(username);
+    public Product getMsg(@PathParam("id") int id) {
+        Product output = productService.getProduct(id);
 
         return output;
     }
 
+    /*
     @POST //create
-    public Product postMsg(@QueryParam("username") String username, @QueryParam("fname") String fname,
+    public Product postMsg(@QueryParam("id") String id, @QueryParam("fname") String fname,
                             @QueryParam("lname") String lname, @QueryParam("email") String email) {
 
         Product product = new Product(fname,lname,username,email);
@@ -73,5 +74,5 @@ public class ProductController extends HttpServlet {
         String output = productService.deleteProduct(username);
         return Response.status(200).entity(output).build();
     }
-
+    */
 }

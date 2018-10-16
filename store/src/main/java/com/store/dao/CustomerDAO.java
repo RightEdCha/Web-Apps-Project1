@@ -23,8 +23,6 @@ public class CustomerDAO {
     }
 
     public Customer createCustomer(Customer customer){
-        //TODO: Run a test on these functions.
-
         String query = "INSERT into customers(fname, lname, username, email) values(?,?,?,?)";
         this.jdbcTemplate.update(query, customer.getFName(), customer.getLName(),
                 customer.getUsername(), customer.getEmail());
@@ -32,7 +30,6 @@ public class CustomerDAO {
     }
 
     public Customer getCustomer(String username){
-        //TODO: Run a test on these functions.
         String query = "SELECT * FROM customers WHERE username = ?";
         Customer customer = this.jdbcTemplate.queryForObject(query, new Object[] {username},
                 (rs, rowNum) -> new Customer(
@@ -61,7 +58,6 @@ public class CustomerDAO {
     }
 
     public Customer updateCustomer(Customer customer){
-        //TODO: Update this query to match with the customer object.
         String query = "UPDATE customers set fname = ?, lname = ?, email = ? where username = ?";
         this.jdbcTemplate.update(query, customer.getFName(), customer.getLName(),
                 customer.getEmail(), customer.getUsername());

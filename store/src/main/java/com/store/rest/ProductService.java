@@ -24,7 +24,7 @@ public class ProductService {
 
         return productDAO.getProduct(id);
     }
-
+/*
     public Product createProduct(Product product) {
 
         return productDAO.createProduct(product);
@@ -44,4 +44,5 @@ public class ProductService {
 
         return "failure";
     }
+    */
 }

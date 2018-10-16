@@ -23,7 +23,7 @@ public class ProductDAO {
     public Product createProduct(Product product){
         //TODO:
         String query = "INSERT into products(itemId, name, msrp, salePrice, upc, shortDescription, brandName," +
-                "size, color, gender) values(?,?,?,?,?,?,?,?,?,?)";
+                "size, color, gender values(?,?,?,?,?,?,?,?,?,?)";
         this.jdbcTemplate.update(query, product.getItemId(), product.getName(), product.getMsrp(), product.getSalePrice(),
                 product.getUpc(), product.getShortDescription(), product.getBrandName());
 
@@ -31,12 +31,9 @@ public class ProductDAO {
     }
 
     public Product getProduct(int itemId){
-        Product product = new Product(itemId, "", 0,0,0,"","","","","");
-        //TODO:
         String query = "SELECT * FROM products WHERE itemId = ?";
-        ProductDAO productDAO = new ProductDAO();
-        //Get product and set tracks using getTracksByproductId(id) in TracksDAO
-        this.jdbcTemplate.queryForObject(query, new Object[] {itemId},
+
+        Product product = this.jdbcTemplate.queryForObject(query, new Object[] {itemId},
                 (rs, rowNum) -> new Product(rs.getInt("itemId"),
                 rs.getString("name"),
                 rs.getBigDecimal("msrp").doubleValue(),
@@ -69,16 +66,15 @@ public class ProductDAO {
     }
 
     public Product updateProduct(Product product){
-        //TODO:
         String query = "UPDATE products set name = ?, msrp = ?, salePrice = ?, upc = ?, shortDescription = ?, " +
                 "brandName = ?, size = ?, color = ?, gender = ? where itemId= ?";
         this.jdbcTemplate.update(query, product.getName(), product.getMsrp(), product.getSalePrice(), product.getUpc(),
-            product.getShortDescription(), product.getBrandName(), product.getSize(), product.getColor(), product.getGender(), product.getItemId());
+            product.getShortDescription(), product.getBrandName(), product.getSize(), product.getColor(),
+            product.getGender(), product.getItemId());
         return product;
     }
 
     public boolean deleteProduct(Product product) {
-        //TODO:
         String query = "DELETE from products where itemId =?";
         boolean deleteSuccess = this.jdbcTemplate.update(query, product.getItemId()) > 0;
         return deleteSuccess;

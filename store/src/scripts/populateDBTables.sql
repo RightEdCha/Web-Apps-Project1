@@ -12,10 +12,10 @@ CREATE PROCEDURE insertProducts
 (IN numProducts INT)
 
 BEGIN
- DECLARE x, upc INT;
+ DECLARE x, upc, cartID INT;
  DECLARE regPrice, salePrice DECIMAL(6,2);
  DECLARE prodName, prodType, prodColor, prodSize, descr, brand, gender  VARCHAR(255);
- 
+
  SET x = 1;
 
  WHILE x  <= numProducts DO
@@ -30,9 +30,9 @@ BEGIN
 	 SET descr = CONCAT(descr, " ",prodSize," ", prodColor, " ",  prodName); 
 	 SET regPrice = RAND()*(2000-1);
 	 SET salePrice = regPrice * 0.75;
-	 SET upc = FLOOR(RAND()*(999999999-100000000));	 
+	 SET upc = FLOOR(RAND()*(999999999-100000000));
 
-	 INSERT INTO products (name, msrp, salePrice, upc, shortDescription, brandName, size, color, gender) 
+	 INSERT INTO products (name, msrp, salePrice, upc, shortDescription, brandName, size, color, gender)
 		VALUES (prodName, regPrice, salePrice, upc, descr, brand, prodSize, prodColor, gender);
 
 	 SET  x = x + 1; 

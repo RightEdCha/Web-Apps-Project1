@@ -47,32 +47,14 @@ public class ProductController extends HttpServlet {
         return output;
     }
 
-    /*
-    @POST //create
-    public Product postMsg(@QueryParam("id") String id, @QueryParam("fname") String fname,
-                            @QueryParam("lname") String lname, @QueryParam("email") String email) {
-
-        Product product = new Product(fname,lname,username,email);
-        Product output = productService.createProduct(product);
-
+    @GET
+    @Path("/search/{keyword}")
+    @Produces(MediaType.APPLICATION_JSON_VALUE)
+    public Collection<Product> getSearchMsg(@PathParam("keyword") String keyword) {
+        /*TODO: Need to implement this through the cart service and DAO - query should be a bunch of or statements with
+        or statements*/
+        Collection<Product> output = productService.getProductByKeyword(keyword);
         return output;
     }
 
-    @PUT //Update
-    public Product putMsg(@QueryParam("username") String username, @QueryParam("fname") String fname,
-                           @QueryParam("lname") String lname, @QueryParam("email") String email) {
-
-        Product product = new Product(fname,lname,username,email);
-
-        return productService.updateProduct(product);
-    }
-
-    @DELETE
-    @Path("/{username}")
-    public Response deleteMsg(@PathParam("username") String username){
-
-        String output = productService.deleteProduct(username);
-        return Response.status(200).entity(output).build();
-    }
-    */
 }

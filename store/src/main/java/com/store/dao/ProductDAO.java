@@ -80,6 +80,26 @@ public class ProductDAO {
         return deleteSuccess;
     }
 
+    public Collection<Product> getProductByKeyword(String keyword){
+        Collection<Product> products = new ArrayList<Product>();
+        String query = "SELECT * FROM products where name LIKE \'%" + keyword + "%\' OR shortDescription " +
+                "LIKE \'%" + keyword + "%\' OR brandName LIKE \'%" + keyword +
+                "%\' OR color LIKE \'%" + keyword + "%\' OR gender LIKE \'%" + keyword + "%\'";
+
+        this.jdbcTemplate.query(query, new Object[]{}, (rs, rowNum) -> new Product(rs.getInt("itemId"),
+                rs.getString("name"),
+                rs.getBigDecimal("msrp").doubleValue(),
+                rs.getBigDecimal("salePrice").doubleValue(),
+                rs.getInt("upc"),
+                rs.getString("shortDescription"),
+                rs.getString("brandName"),
+                rs.getString("size"),
+                rs.getString("color"),
+                rs.getString("gender"))).forEach(product -> products.add(product));
+        return products;
+    }
+
+
     public DriverManagerDataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(driverClassName);

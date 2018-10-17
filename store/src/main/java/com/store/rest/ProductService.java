@@ -24,25 +24,8 @@ public class ProductService {
 
         return productDAO.getProduct(id);
     }
-/*
-    public Product createProduct(Product product) {
 
-        return productDAO.createProduct(product);
+    public Collection<Product> getProductByKeyword(String keyword){
+        return productDAO.getProductByKeyword(keyword);
     }
-
-    public Product updateProduct(Product product) {
-
-        return productDAO.updateProduct(product);
-    }
-
-    public String deleteProduct(int id) {
-        String retString = "";
-        boolean success = productDAO.deleteProduct(id);
-
-        if (success == true)
-            return retString;
-
-        return "failure";
-    }
-    */
 }

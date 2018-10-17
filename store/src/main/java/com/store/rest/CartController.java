@@ -55,9 +55,9 @@ public class CartController extends HttpServlet {
     }
 
     @GET
-    @Path("/{productId}")       //When i tried this as a query param, the program complained and none of the other functions worked.
+    @Path("/purchased")       //When i tried this as a query param, the program complained and none of the other functions worked.
     @Produces(MediaType.APPLICATION_JSON_VALUE)
-    public Collection<String> getWhoPurchased(@PathParam("productId") int productId){
+    public Collection<String> getWhoPurchased(@QueryParam("productId") int productId){
         return cartService.getWhoPurchased(productId);
     }
 
